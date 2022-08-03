@@ -1,35 +1,54 @@
 import { useState, useEffect } from "react";
 import LoginForm from "./components/LoginForm";
-import Blog from "./components/Blog";
+import BlogList from "./components/BlogList";
 import blogService from "./services/blogs";
+import loginService from "./services/login";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
-    console.log("Logging in with", username, password);
+
+    try {
+      const user = await loginService.login({ username, password });
+      setUser(user);
+      setUsername("");
+      setPassword("");
+    } catch (exception) {
+      setErrorMessage("Wrong credentials");
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+    }
   };
 
   return (
     <div>
       <h1>Blogs</h1>
-      <LoginForm
-        username={username}
-        password={password}
-        setUsername={setUsername}
-        setPassword={setPassword}
-        handleLogin={handleLogin}
-      />
-      {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
-      ))}
+      {user === null ? (
+        <LoginForm
+          username={username}
+          password={password}
+          errorMessage={errorMessage}
+          setUsername={setUsername}
+          setPassword={setPassword}
+          handleLogin={handleLogin}
+        />
+      ) : (
+        <>
+          <p>{user.name} is logged in</p>
+          <BlogList blogs={blogs} />
+        </>
+      )}
     </div>
   );
 };
