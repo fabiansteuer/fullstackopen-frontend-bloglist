@@ -1,7 +1,7 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
 
-const BlogForm = ({ blogs, setBlogs }) => {
+const BlogForm = ({ blogs, setBlogs, setMessage, setMessageType }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -18,9 +18,21 @@ const BlogForm = ({ blogs, setBlogs }) => {
         setTitle("");
         setAuthor("");
         setUrl("");
+        setMessage("Blog succesfully added.");
+        setMessageType("success");
+        setTimeout(() => {
+          setMessage("");
+          setMessageType("");
+        }, 5000);
       })
       .catch((error) => {
-        console.log(error);
+        const errorMessage = error.response.data.error;
+        setMessage(errorMessage);
+        setMessageType("error");
+        setTimeout(() => {
+          setMessage("");
+          setMessageType("");
+        }, 5000);
       });
   };
 

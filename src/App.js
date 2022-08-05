@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Message from "./components/Message";
 import LoginForm from "./components/LoginForm";
 import BlogList from "./components/BlogList";
 import BlogForm from "./components/BlogForm";
@@ -6,6 +7,8 @@ import blogService from "./services/blogs";
 import loginService from "./services/login";
 
 const App = () => {
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -75,7 +78,13 @@ const App = () => {
               <button onClick={handleLogout}>Log out</button>
             </span>
           </div>
-          <BlogForm blogs={blogs} setBlogs={setBlogs} />
+          <Message message={message} type={messageType} />
+          <BlogForm
+            blogs={blogs}
+            setBlogs={setBlogs}
+            setMessage={setMessage}
+            setMessageType={setMessageType}
+          />
           <BlogList blogs={blogs} />
         </>
       )}
