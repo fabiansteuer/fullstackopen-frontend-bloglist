@@ -12,7 +12,6 @@ const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -42,10 +41,17 @@ const App = () => {
 
       setUsername("");
       setPassword("");
-    } catch (exception) {
-      setErrorMessage("Wrong credentials");
+
+      setMessage("Login successful.");
+      setMessageType("success");
       setTimeout(() => {
-        setErrorMessage(null);
+        setMessage(null);
+      }, 5000);
+    } catch (exception) {
+      setMessage("Wrong credentials");
+      setMessageType("error");
+      setTimeout(() => {
+        setMessage(null);
       }, 5000);
     }
   };
@@ -56,20 +62,28 @@ const App = () => {
 
     blogService.setToken(null);
     setBlogs([]);
+
+    setMessage("Logout successful.");
+    setMessageType("success");
+    setTimeout(() => {
+      setMessage(null);
+    }, 5000);
   };
 
   return (
     <div>
       <h1>Blogs</h1>
+      <Message message={message} type={messageType} />
       {user === null ? (
-        <LoginForm
-          username={username}
-          password={password}
-          errorMessage={errorMessage}
-          setUsername={setUsername}
-          setPassword={setPassword}
-          handleLogin={handleLogin}
-        />
+        <>
+          <LoginForm
+            username={username}
+            password={password}
+            setUsername={setUsername}
+            setPassword={setPassword}
+            handleLogin={handleLogin}
+          />
+        </>
       ) : (
         <>
           <div>
@@ -78,7 +92,6 @@ const App = () => {
               <button onClick={handleLogout}>Log out</button>
             </span>
           </div>
-          <Message message={message} type={messageType} />
           <BlogForm
             blogs={blogs}
             setBlogs={setBlogs}

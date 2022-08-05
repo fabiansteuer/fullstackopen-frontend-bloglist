@@ -18,7 +18,9 @@ const BlogForm = ({ blogs, setBlogs, setMessage, setMessageType }) => {
         setTitle("");
         setAuthor("");
         setUrl("");
-        setMessage("Blog succesfully added.");
+        setMessage(
+          `Blog ${createdBlog.title} by ${createdBlog.author} succesfully added.`
+        );
         setMessageType("success");
         setTimeout(() => {
           setMessage("");
