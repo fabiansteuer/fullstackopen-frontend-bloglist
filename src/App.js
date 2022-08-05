@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import LoginForm from "./components/LoginForm";
 import BlogList from "./components/BlogList";
+import BlogForm from "./components/BlogForm";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 
@@ -12,7 +13,7 @@ const App = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    blogService.list().then((blogs) => setBlogs(blogs));
   }, []);
 
   useEffect(() => {
@@ -20,6 +21,7 @@ const App = () => {
 
     if (userFromStorage) {
       const user = JSON.parse(userFromStorage);
+      blogService.setToken(user.token);
       setUser(user);
     }
   }, []);
@@ -31,6 +33,10 @@ const App = () => {
       const user = await loginService.login({ username, password });
       window.localStorage.setItem("user", JSON.stringify(user));
       setUser(user);
+
+      blogService.setToken(user.token);
+      setBlogs(await blogService.list());
+
       setUsername("");
       setPassword("");
     } catch (exception) {
@@ -44,6 +50,9 @@ const App = () => {
   const handleLogout = async (event) => {
     window.localStorage.removeItem("user");
     setUser(null);
+
+    blogService.setToken(null);
+    setBlogs([]);
   };
 
   return (
@@ -66,6 +75,7 @@ const App = () => {
               <button onClick={handleLogout}>Log out</button>
             </span>
           </div>
+          <BlogForm blogs={blogs} setBlogs={setBlogs} />
           <BlogList blogs={blogs} />
         </>
       )}
