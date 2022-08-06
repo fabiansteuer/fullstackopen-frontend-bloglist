@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Togglable from "./components/Togglable";
 import Message from "./components/Message";
 import LoginForm from "./components/LoginForm";
 import BlogList from "./components/BlogList";
@@ -92,12 +93,14 @@ const App = () => {
               <button onClick={handleLogout}>Log out</button>
             </span>
           </div>
-          <BlogForm
-            blogs={blogs}
-            setBlogs={setBlogs}
-            setMessage={setMessage}
-            setMessageType={setMessageType}
-          />
+          <Togglable buttonLabel="Add blog">
+            <BlogForm
+              blogs={blogs}
+              setBlogs={setBlogs}
+              setMessage={setMessage}
+              setMessageType={setMessageType}
+            />
+          </Togglable>
           <BlogList blogs={blogs} />
         </>
       )}
