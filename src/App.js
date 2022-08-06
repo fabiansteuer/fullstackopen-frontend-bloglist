@@ -11,8 +11,20 @@ const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
 
+  const setSortedBlogs = (blogs) => {
+    const sortedBlogs = [...blogs].sort((a, b) => {
+      if (a.likes < b.likes) {
+        return 1;
+      } else if (a.likes > b.likes) {
+        return -1;
+      }
+      return 0;
+    });
+    setBlogs(sortedBlogs);
+  };
+
   useEffect(() => {
-    blogService.list().then((blogs) => setBlogs(blogs));
+    blogService.list().then((blogs) => setSortedBlogs(blogs));
   }, []);
 
   useEffect(() => {
@@ -47,7 +59,7 @@ const App = () => {
       {user === null ? (
         <LoginForm
           setUser={setUser}
-          setBlogs={setBlogs}
+          setBlogs={setSortedBlogs}
           showMessage={showMessage}
         />
       ) : (
@@ -61,13 +73,13 @@ const App = () => {
           <Togglable buttonLabel="Add blog">
             <BlogForm
               blogs={blogs}
-              setBlogs={setBlogs}
+              setBlogs={setSortedBlogs}
               showMessage={showMessage}
             />
           </Togglable>
           <BlogList
             blogs={blogs}
-            setBlogs={setBlogs}
+            setBlogs={setSortedBlogs}
             showMessage={showMessage}
           />
         </>
