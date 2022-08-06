@@ -27,11 +27,11 @@ const Blog = ({ blog, blogs, setBlogs, showMessage }) => {
     }
   };
 
-  const removeBlog = async (event) => {
+  const removeBlog = async () => {
     if (window.confirm(`Remove ${blog.title}?`)) {
       try {
         blogService.remove(blog);
-        setBlogs(blogs.filter((b) => b.id != blog.id));
+        setBlogs(blogs.filter((b) => b.id !== blog.id));
         showMessage({ text: "Blog removed.", type: "success" });
       } catch (error) {
         console.error(error);

@@ -44,7 +44,7 @@ const App = () => {
     setTimeout(() => setMessage({ text: null, type: null }), 5000);
   };
 
-  const handleLogout = async (event) => {
+  const handleLogout = async () => {
     window.localStorage.removeItem("user");
     setUser(null);
 
