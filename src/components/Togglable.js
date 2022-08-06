@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 
-const Togglable = (props) => {
+const Togglable = forwardRef((props, refs) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const toggleVisibility = () => {
     setIsVisible(!isVisible);
   };
+
+  useImperativeHandle(refs, () => {
+    return { toggleVisibility };
+  });
 
   if (!isVisible) {
     return <button onClick={toggleVisibility}>{props.buttonLabel}</button>;
@@ -17,6 +21,6 @@ const Togglable = (props) => {
       <button onClick={toggleVisibility}>Cancel</button>
     </div>
   );
-};
+});
 
 export default Togglable;

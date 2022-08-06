@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Togglable from "./components/Togglable";
 import Message from "./components/Message";
 import LoginForm from "./components/LoginForm";
@@ -10,6 +10,8 @@ const App = () => {
   const [message, setMessage] = useState({ text: null, type: null });
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
+
+  const blogFormRef = useRef();
 
   const setSortedBlogs = (blogs) => {
     const sortedBlogs = [...blogs].sort((a, b) => {
@@ -70,11 +72,13 @@ const App = () => {
               <button onClick={handleLogout}>Log out</button>
             </span>
           </p>
-          <Togglable buttonLabel="Add blog">
+          <h2>Add Blog</h2>
+          <Togglable buttonLabel="Add blog" ref={blogFormRef}>
             <BlogForm
               blogs={blogs}
               setBlogs={setSortedBlogs}
               showMessage={showMessage}
+              blogFormRef={blogFormRef}
             />
           </Togglable>
           <BlogList
