@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const style = {
   marginTop: "8px",
   padding: "8px",
@@ -5,18 +7,18 @@ const style = {
   borderRadius: 2,
 };
 
-const Message = ({ message, type }) => {
-  if (!message) return null;
+const Message = ({ message }) => {
+  if (!message.text) return null;
 
   let backgroundColor = "gray";
 
-  if (type === "success") {
+  if (message.type === "success") {
     backgroundColor = "green";
-  } else if (type === "error") {
+  } else if (message.type === "error") {
     backgroundColor = "red";
   }
 
-  return <div style={{ ...style, backgroundColor }}>{message}</div>;
+  return <div style={{ ...style, backgroundColor }}>{message.text}</div>;
 };
 
 export default Message;

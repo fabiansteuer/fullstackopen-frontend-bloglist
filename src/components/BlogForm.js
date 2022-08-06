@@ -1,7 +1,7 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
 
-const BlogForm = ({ blogs, setBlogs, setMessage, setMessageType }) => {
+const BlogForm = ({ blogs, setBlogs, showMessage }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -18,23 +18,18 @@ const BlogForm = ({ blogs, setBlogs, setMessage, setMessageType }) => {
         setTitle("");
         setAuthor("");
         setUrl("");
-        setMessage(
-          `Blog ${createdBlog.title} by ${createdBlog.author} succesfully added.`
-        );
-        setMessageType("success");
-        setTimeout(() => {
-          setMessage("");
-          setMessageType("");
-        }, 5000);
+        showMessage({
+          text: `Blog ${createdBlog.title} by ${createdBlog.author} succesfully added.`,
+          type: "success",
+        });
       })
       .catch((error) => {
+        console.log(error);
         const errorMessage = error.response.data.error;
-        setMessage(errorMessage);
-        setMessageType("error");
-        setTimeout(() => {
-          setMessage("");
-          setMessageType("");
-        }, 5000);
+        showMessage({
+          text: errorMessage,
+          type: "error",
+        });
       });
   };
 

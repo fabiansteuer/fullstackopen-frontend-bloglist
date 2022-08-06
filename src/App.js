@@ -5,14 +5,10 @@ import LoginForm from "./components/LoginForm";
 import BlogList from "./components/BlogList";
 import BlogForm from "./components/BlogForm";
 import blogService from "./services/blogs";
-import loginService from "./services/login";
 
 const App = () => {
-  const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState("");
+  const [message, setMessage] = useState({ text: null, type: null });
   const [blogs, setBlogs] = useState([]);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -29,32 +25,9 @@ const App = () => {
     }
   }, []);
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-
-    try {
-      const user = await loginService.login({ username, password });
-      window.localStorage.setItem("user", JSON.stringify(user));
-      setUser(user);
-
-      blogService.setToken(user.token);
-      setBlogs(await blogService.list());
-
-      setUsername("");
-      setPassword("");
-
-      setMessage("Login successful.");
-      setMessageType("success");
-      setTimeout(() => {
-        setMessage(null);
-      }, 5000);
-    } catch (exception) {
-      setMessage("Wrong credentials");
-      setMessageType("error");
-      setTimeout(() => {
-        setMessage(null);
-      }, 5000);
-    }
+  const showMessage = ({ text, type }) => {
+    setMessage({ text, type });
+    setTimeout(() => setMessage({ text: null, type: null }), 5000);
   };
 
   const handleLogout = async (event) => {
@@ -64,27 +37,19 @@ const App = () => {
     blogService.setToken(null);
     setBlogs([]);
 
-    setMessage("Logout successful.");
-    setMessageType("success");
-    setTimeout(() => {
-      setMessage(null);
-    }, 5000);
+    showMessage({ text: "Logout successful.", type: "success" });
   };
 
   return (
     <div>
       <h1>Blogs</h1>
-      <Message message={message} type={messageType} />
+      <Message message={message} />
       {user === null ? (
-        <>
-          <LoginForm
-            username={username}
-            password={password}
-            setUsername={setUsername}
-            setPassword={setPassword}
-            handleLogin={handleLogin}
-          />
-        </>
+        <LoginForm
+          setUser={setUser}
+          setBlogs={setBlogs}
+          showMessage={showMessage}
+        />
       ) : (
         <>
           <div>
@@ -97,8 +62,7 @@ const App = () => {
             <BlogForm
               blogs={blogs}
               setBlogs={setBlogs}
-              setMessage={setMessage}
-              setMessageType={setMessageType}
+              showMessage={showMessage}
             />
           </Togglable>
           <BlogList blogs={blogs} />
