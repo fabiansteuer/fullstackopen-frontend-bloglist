@@ -24,7 +24,7 @@ const BlogForm = ({ blogs, setBlogs, showMessage }) => {
         });
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         const errorMessage = error.response.data.error;
         showMessage({
           text: errorMessage,

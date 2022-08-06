@@ -52,12 +52,12 @@ const App = () => {
         />
       ) : (
         <>
-          <div>
+          <p>
             {user.name} is logged in{" "}
             <span>
               <button onClick={handleLogout}>Log out</button>
             </span>
-          </div>
+          </p>
           <Togglable buttonLabel="Add blog">
             <BlogForm
               blogs={blogs}
@@ -65,7 +65,11 @@ const App = () => {
               showMessage={showMessage}
             />
           </Togglable>
-          <BlogList blogs={blogs} />
+          <BlogList
+            blogs={blogs}
+            setBlogs={setBlogs}
+            showMessage={showMessage}
+          />
         </>
       )}
     </div>

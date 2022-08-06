@@ -25,7 +25,7 @@ const LoginForm = ({ setUser, setBlogs, showMessage }) => {
         type: "success",
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       showMessage({
         text: "Wrong credentials.",
         type: "error",
