@@ -6,24 +6,22 @@ const Blog = ({ blog, blogs, setBlogs, showMessage }) => {
   const toggleShowDetails = () => setShowDetails(!showDetails);
 
   const likeBlog = async (event) => {
-    event.preventDefault();
-
     try {
       const likedBlog = {
         ...blog,
         likes: blog.likes + 1,
         user: blog.user.id,
       };
-
       const updatedBlog = await blogService.update(likedBlog);
 
       const updatedBlogs = blogs.map((b) =>
         b.id === updatedBlog.id ? { ...b, likes: updatedBlog.likes } : b
       );
+
       setBlogs(updatedBlogs);
     } catch (error) {
       console.error(error);
-      showMessage({ text: "Failed to like the blog.", type: "error" });
+      showMessage({ text: "Failed to like blog.", type: "error" });
     }
   };
 
@@ -52,18 +50,23 @@ const Blog = ({ blog, blogs, setBlogs, showMessage }) => {
     return (
       <div style={blogStyle}>
         <h3>{blog.title}</h3>
-        <button onClick={toggleShowDetails}>Show</button>
+        <button onClick={toggleShowDetails} id="show-blog">
+          Show
+        </button>
       </div>
     );
   }
 
   return (
-    <div style={blogStyle} className="blog">
+    <div style={blogStyle}>
       <h3>{blog.title}</h3>
       <p>{blog.author}</p>
       <p>{blog.url}</p>
       <p>
-        {blog.likes} likes <button onClick={likeBlog}>Like</button>
+        {blog.likes} likes{" "}
+        <button onClick={likeBlog} id="like-blog">
+          Like
+        </button>
       </p>
       <button onClick={toggleShowDetails}>Hide</button>
       <button onClick={removeBlog}>Remove</button>
