@@ -5,7 +5,7 @@ const Blog = ({ blog, blogs, setBlogs, showMessage }) => {
   const [showDetails, setShowDetails] = useState(false);
   const toggleShowDetails = () => setShowDetails(!showDetails);
 
-  const likeBlog = async (event) => {
+  const likeBlog = async () => {
     try {
       const likedBlog = {
         ...blog,

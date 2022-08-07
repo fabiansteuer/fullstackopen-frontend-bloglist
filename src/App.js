@@ -11,7 +11,7 @@ const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
 
-  const blogFormRef = useRef();
+  const blogFormTogglableRef = useRef();
 
   const setSortedBlogs = (blogs) => {
     const sortedBlogs = [...blogs].sort((a, b) => {
@@ -73,12 +73,12 @@ const App = () => {
             </span>
           </p>
           <h2>Add Blog</h2>
-          <Togglable buttonLabel="Add blog" ref={blogFormRef}>
+          <Togglable buttonLabel="Add blog" ref={blogFormTogglableRef}>
             <BlogForm
               blogs={blogs}
               setBlogs={setSortedBlogs}
               showMessage={showMessage}
-              blogFormRef={blogFormRef}
+              blogFormTogglableRef={blogFormTogglableRef}
             />
           </Togglable>
           <BlogList

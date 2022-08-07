@@ -1,7 +1,7 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
 
-const BlogForm = ({ blogs, setBlogs, showMessage, blogFormRef }) => {
+const BlogForm = ({ blogs, setBlogs, showMessage, blogFormTogglableRef }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -22,7 +22,7 @@ const BlogForm = ({ blogs, setBlogs, showMessage, blogFormRef }) => {
           text: `Blog ${createdBlog.title} by ${createdBlog.author} succesfully added.`,
           type: "success",
         });
-        blogFormRef.current.toggleVisibility();
+        blogFormTogglableRef.current.toggleVisibility();
       })
       .catch((error) => {
         console.error(error);
@@ -67,7 +67,9 @@ const BlogForm = ({ blogs, setBlogs, showMessage, blogFormRef }) => {
             onChange={({ target }) => setUrl(target.value)}
           />
         </div>
-        <button type="submit">Add</button>
+        <button type="submit" id="add-blog">
+          Add
+        </button>
       </form>
     </div>
   );
