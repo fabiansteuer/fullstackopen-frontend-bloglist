@@ -58,7 +58,7 @@ const Blog = ({ blog, blogs, setBlogs, showMessage }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className="blog">
       <h3>{blog.title}</h3>
       <p>{blog.author}</p>
       <p>{blog.url}</p>
