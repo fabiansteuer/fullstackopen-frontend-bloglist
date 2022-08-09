@@ -34,7 +34,7 @@ test("render blog title, author, url and likes after clicking show button", asyn
 
   const { container } = render(<Blog blog={blog} />);
 
-  const button = container.querySelector("#show-blog");
+  const button = container.querySelector("#show-blog-button");
   await user.click(button);
 
   screen.getByText(blog.title);
@@ -65,10 +65,10 @@ test("clicking the like button twice calls the corresponding event handler twice
     />
   );
 
-  const showButton = container.querySelector("#show-blog");
+  const showButton = container.querySelector("#show-blog-button");
   await user.click(showButton);
 
-  const likeButton = container.querySelector("#like-blog");
+  const likeButton = container.querySelector("#like-blog-button");
   await user.click(likeButton);
   await user.click(likeButton);
 

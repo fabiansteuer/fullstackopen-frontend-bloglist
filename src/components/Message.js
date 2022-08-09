@@ -16,7 +16,11 @@ const Message = ({ message }) => {
     backgroundColor = "red";
   }
 
-  return <div style={{ ...style, backgroundColor }}>{message.text}</div>;
+  return (
+    <div style={{ ...style, backgroundColor }} id="message">
+      {message.text}
+    </div>
+  );
 };
 
 export default Message;

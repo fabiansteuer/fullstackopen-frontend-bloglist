@@ -50,7 +50,7 @@ const Blog = ({ blog, blogs, setBlogs, showMessage }) => {
     return (
       <div style={blogStyle}>
         <h3>{blog.title}</h3>
-        <button onClick={toggleShowDetails} id="show-blog">
+        <button onClick={toggleShowDetails} id="show-blog-button">
           Show
         </button>
       </div>
@@ -64,12 +64,14 @@ const Blog = ({ blog, blogs, setBlogs, showMessage }) => {
       <p>{blog.url}</p>
       <p>
         {blog.likes} likes{" "}
-        <button onClick={likeBlog} id="like-blog">
+        <button onClick={likeBlog} id="like-blog-button">
           Like
         </button>
       </p>
       <button onClick={toggleShowDetails}>Hide</button>
-      <button onClick={removeBlog}>Remove</button>
+      <button onClick={removeBlog} id="remove-blog-button">
+        Remove
+      </button>
     </div>
   );
 };

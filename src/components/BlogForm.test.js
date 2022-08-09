@@ -46,7 +46,7 @@ test("adding a blog calls the corresponding event handler with the blog's detail
   const urlInput = container.querySelector("#url");
   await user.type(urlInput, blog.url);
 
-  const button = container.querySelector("#add-blog");
+  const button = container.querySelector("#add-blog-button");
   await user.click(button);
 
   expect(spyCreateBlog).toBeCalled();

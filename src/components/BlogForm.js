@@ -67,7 +67,7 @@ const BlogForm = ({ blogs, setBlogs, showMessage, blogFormTogglableRef }) => {
             onChange={({ target }) => setUrl(target.value)}
           />
         </div>
-        <button type="submit" id="add-blog">
+        <button type="submit" id="add-blog-button">
           Add
         </button>
       </form>

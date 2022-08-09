@@ -2,7 +2,7 @@ import Blog from "./Blog";
 
 const BlogList = ({ blogs, setBlogs, showMessage }) => {
   return (
-    <div>
+    <div id="blog-list">
       <h2>List</h2>
       {blogs.map((blog) => (
         <Blog
