@@ -48,7 +48,7 @@ const Blog = ({ blog, blogs, setBlogs, showMessage }) => {
 
   if (!showDetails) {
     return (
-      <div style={blogStyle}>
+      <div style={blogStyle} id={blog.id}>
         <h3>{blog.title}</h3>
         <button onClick={toggleShowDetails} id="show-blog-button">
           Show
@@ -58,7 +58,7 @@ const Blog = ({ blog, blogs, setBlogs, showMessage }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} id={blog.id}>
       <h3>{blog.title}</h3>
       <p>{blog.author}</p>
       <p>{blog.url}</p>

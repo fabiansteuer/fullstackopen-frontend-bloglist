@@ -30,11 +30,10 @@ Cypress.Commands.add("login", ({ username, password }) => {
     password,
   }).then(({ body }) => {
     localStorage.setItem("user", JSON.stringify(body));
-    cy.visit("http://localhost:3000");
   });
 });
 
-Cypress.Commands.add("createBlog", ({ title, author, url }) => {
+function createBlog({ title, author, url }) {
   cy.request({
     url: "http://localhost:3003/api/blogs",
     method: "POST",
@@ -42,6 +41,9 @@ Cypress.Commands.add("createBlog", ({ title, author, url }) => {
     headers: {
       Authorization: `bearer ${JSON.parse(localStorage.getItem("user")).token}`,
     },
+  }).then((response) => {
+    return cy.wrap(response.body);
   });
-  cy.visit("http://localhost:3000");
-});
+}
+
+Cypress.Commands.add("createBlog", createBlog);

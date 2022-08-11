@@ -17,6 +17,8 @@ const blogs = [
   },
 ];
 
+let createdBlogs = [];
+
 describe("Blog app", function () {
   beforeEach(function () {
     cy.request("POST", "http://localhost:3003/api/testing/reset");
@@ -68,7 +70,7 @@ describe("Blog app", function () {
 
     describe("With one blog", function () {
       beforeEach(function () {
-        cy.createBlog(blogs[0]);
+        cy.createBlog(blogs[0]).then((blog) => createdBlogs.push(blog));
       });
 
       it("It can be liked", function () {
@@ -87,12 +89,15 @@ describe("Blog app", function () {
 
       describe.only("After creating a second blog", function () {
         beforeEach(function () {
-          cy.createBlog(blogs[1]);
+          cy.createBlog(blogs[1]).then((blog) => {
+            createdBlogs.push(blog);
+          });
+          cy.visit("http://localhost:3000");
         });
 
         it("Both blogs' titles are shown", function () {
-          cy.contains(blogs[0].title);
-          cy.contains(blogs[1].title);
+          cy.get(`#${createdBlogs[0].id}`).contains(blogs[0].title);
+          cy.get(`#${createdBlogs[1].id}`).contains(blogs[1].title);
         });
       });
     });
