@@ -55,6 +55,7 @@ describe("Blog app", function () {
   describe("When logged in ", function () {
     beforeEach(function () {
       cy.login({ username: user.username, password: user.password });
+      cy.visit("http://localhost:3000");
     });
 
     it("Adding a blog works", function () {
@@ -70,7 +71,9 @@ describe("Blog app", function () {
 
     describe("With one blog", function () {
       beforeEach(function () {
+        createdBlogs = [];
         cy.createBlog(blogs[0]).then((blog) => createdBlogs.push(blog));
+        cy.visit("http://localhost:3000");
       });
 
       it("It can be liked", function () {
@@ -87,17 +90,37 @@ describe("Blog app", function () {
         cy.get("html").should("not.contain", blogs[0].title);
       });
 
-      describe.only("After creating a second blog", function () {
+      describe("After creating a second blog", function () {
         beforeEach(function () {
           cy.createBlog(blogs[1]).then((blog) => {
             createdBlogs.push(blog);
           });
           cy.visit("http://localhost:3000");
+          cy.wait(500);
         });
 
-        it("Both blogs' titles are shown", function () {
-          cy.get(`#${createdBlogs[0].id}`).contains(blogs[0].title);
-          cy.get(`#${createdBlogs[1].id}`).contains(blogs[1].title);
+        it("Blogs are sorted by the number of likes", function () {
+          // Like first blog once
+          cy.get(`#${createdBlogs[0].id}`).within(() => {
+            cy.get("#show-blog-button").click();
+            cy.get("#like-blog-button").click();
+          });
+
+          // Like second blog twice
+          cy.get(`#${createdBlogs[1].id}`).within(() => {
+            cy.get("#show-blog-button").click();
+            cy.get("#like-blog-button").click();
+            cy.get("#like-blog-button").click();
+          });
+
+          cy.wait(500);
+
+          // Expect second blog before first blog now
+          cy.get("#blog-list").within(() => {
+            cy.get("h3").each((item, index) => {
+              expect(item.text()).to.eq(blogs[index === 0 ? 1 : 0].title);
+            });
+          });
         });
       });
     });
