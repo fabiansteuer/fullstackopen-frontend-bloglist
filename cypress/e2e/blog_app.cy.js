@@ -96,7 +96,6 @@ describe("Blog app", function () {
             createdBlogs.push(blog);
           });
           cy.visit("http://localhost:3000");
-          cy.wait(500);
         });
 
         it("Blogs are sorted by the number of likes", function () {
@@ -106,6 +105,8 @@ describe("Blog app", function () {
             cy.get("#like-blog-button").click();
           });
 
+          cy.get("#blog-list").should("contain", "1 likes");
+
           // Like second blog twice
           cy.get(`#${createdBlogs[1].id}`).within(() => {
             cy.get("#show-blog-button").click();
@@ -113,7 +114,7 @@ describe("Blog app", function () {
             cy.get("#like-blog-button").click();
           });
 
-          cy.wait(500);
+          cy.get("#blog-list").should("contain", "2 likes");
 
           // Expect second blog before first blog now
           cy.get("#blog-list").within(() => {
